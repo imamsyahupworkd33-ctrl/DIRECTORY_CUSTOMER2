@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0A0A0C">
+<title>Login Pelanggan — Portal Monitoring Langganan</title>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="theme-dark.css">
+</head>
+<body>
+
+<div class="auth-shell">
+    <div class="auth-card">
+
+        <div class="lang-switch" style="margin-bottom:18px;">
+            <button type="button" data-lang="id">ID</button>
+            <button type="button" data-lang="en">EN</button>
+            <button type="button" data-lang="vi">VI</button>
+            <button type="button" data-lang="ar">AR</button>
+        </div>
+
+        <div class="auth-brand">
+            <div class="mark">LS</div>
+            <div>
+                <h1 data-i18n="brand_title">Portal Pelanggan</h1>
+                <span data-i18n="brand_sub">Monitoring langganan harian Anda</span>
+            </div>
+        </div>
+
+        <div class="form-msg" id="loginMsg"></div>
+
+        <div class="field">
+            <label for="loginUsername" data-i18n="label_username">Username</label>
+            <input type="text" id="loginUsername" data-i18n-placeholder="placeholder_username" placeholder="cth. Pelanggan 88" autocomplete="username">
+        </div>
+        <div class="field">
+            <label for="loginPassword" data-i18n="label_password">Password</label>
+            <div class="pw-wrap">
+                <input type="password" id="loginPassword" data-i18n-placeholder="placeholder_password" placeholder="Password Anda" autocomplete="current-password">
+                <button type="button" class="pw-toggle" onclick="togglePasswordField('loginPassword', this)">👁️</button>
+            </div>
+        </div>
+
+        <button class="btn btn-primary" id="loginBtn" data-i18n="btn_login">Masuk</button>
+
+        <div class="auth-links" style="margin-top:14px; font-size:12px; color:var(--text-muted);" data-i18n="forgot_note">
+            Lupa password? Hubungi admin untuk direset.
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="config.js"></script>
+<script src="js/i18n.js"></script>
+<script src="js/common.js"></script>
+<script src="js/auth.js"></script>
+</body>
+</html>

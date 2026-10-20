@@ -1,0 +1,67 @@
+/* Portal pelanggan — tema hitam elegan (selaras dashboard admin). Hapus <link> ini untuk kembali ke tema terang. */
+:root{
+    --bg:#0A0A0C; --surface:#131316; --surface-alt:#1A1A1F; --border:#26262C;
+    --text-primary:#F2F0EA; --text-secondary:#A4A3AE; --text-muted:#6E6E7A;
+    --primary:#D4AF6A; --primary-2:#B8924A; --primary-soft:rgba(212,175,106,.13);
+    --success:#5FC79A; --success-soft:rgba(95,199,154,.13);
+    --warning:#E3B05B; --warning-soft:rgba(227,176,91,.13);
+    --danger:#E0707F; --danger-soft:rgba(224,112,127,.13);
+    --shadow-md:0 8px 24px rgba(0,0,0,.5); --shadow-lg:0 20px 48px rgba(0,0,0,.65);
+    --font-display:'Inter',-apple-system,sans-serif; --font-body:'Inter',-apple-system,sans-serif;
+    color-scheme:dark;
+}
+body{ font-size:13px; font-variant-numeric:tabular-nums; background:var(--bg); }
+.auth-card, .panel, .summary-card, .order-card, .modal-box{ background:linear-gradient(180deg,#141418,#111114); border:1px solid var(--border); box-shadow:0 8px 24px rgba(0,0,0,.35); }
+.auth-brand .logo, .brand-mark{ background:linear-gradient(135deg,#E6C98A,#B8924A); color:#111; }
+.btn-primary{ background:linear-gradient(135deg,#E0BF7F,#B8924A); color:#141414; box-shadow:0 6px 18px rgba(212,175,106,.18); }
+.btn-outline{ background:transparent; color:var(--primary); border:1.5px solid rgba(212,175,106,.35); }
+.btn-danger{ color:#fff; }
+.field input, .tag-search input, input, select, textarea{ background:var(--surface-alt) !important; color:var(--text-primary) !important; border-color:var(--border) !important; }
+.field input:focus, .tag-search input:focus, input:focus{ border-color:var(--primary) !important; background:var(--surface-alt) !important; }
+.panel-title{ font-size:14px; }
+.summary-card .label{ font-size:11px; text-transform:uppercase; letter-spacing:.06em; font-weight:600; }
+.summary-card .value{ font-size:24px; }
+.summary-card .value.small{ font-size:15px; padding-top:7px; }
+.progress-track{ background:#25252B; }
+.mini-table th{ background:#1A1A1F; color:#B9B7C2; font-size:11px; text-transform:uppercase; letter-spacing:.04em; }
+.mini-table th, .mini-table td{ border:1px solid var(--border); padding:7px 10px; font-size:12px; white-space:nowrap; }
+.mini-table tbody tr:nth-child(even) td{ background:#0F0F12; }
+.modal-overlay{ background:rgba(0,0,0,.7); }
+.lang-switch button{ background:transparent; color:var(--text-secondary); border:1px solid var(--border); }
+.lang-switch button.active{ background:var(--primary); color:#111; border-color:var(--primary); }
+.initial-badge{ background:var(--primary); color:#111; }
+.initial-add-btn{ background:transparent; color:var(--text-secondary); }
+.filter-banner{ background:var(--success-soft); color:var(--success); }
+.badge-count{ background:var(--danger); color:#fff; }
+
+/* tab pelanggan */
+.p-tabs{ display:flex; gap:6px; overflow-x:auto; margin:4px 0 16px; padding:4px; background:var(--surface); border:1px solid var(--border); border-radius:14px; }
+.p-tabs button{ flex:1 0 auto; border:none; background:transparent; color:var(--text-secondary); font:600 12.5px var(--font-body); padding:10px 14px; border-radius:10px; cursor:pointer; white-space:nowrap; }
+.p-tabs button.active{ background:var(--primary); color:#111; }
+.kpi-extra{ margin-top:-4px; }
+
+/* grafik */
+.chart-box{ position:relative; height:260px; } .chart-box.sm{ height:220px; }
+.chart-grid{ display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+@media (max-width:640px){ .chart-grid{ grid-template-columns:1fr; } }
+
+/* pengumuman */
+.ann-card{ background:linear-gradient(135deg,rgba(212,175,106,.10),rgba(212,175,106,.03)); border:1px solid rgba(212,175,106,.28); border-radius:14px; padding:14px 16px; margin-bottom:12px; }
+.ann-card.pinned{ border-color:var(--primary); box-shadow:0 0 0 1px rgba(212,175,106,.25) inset; }
+.ann-head{ display:flex; align-items:center; gap:8px; font-size:13.5px; }
+.ann-tag{ background:var(--primary); color:#111; font-size:10px; font-weight:800; padding:2px 8px; border-radius:99px; text-transform:uppercase; letter-spacing:.05em; }
+.ann-x{ margin-left:auto; background:none; border:none; color:var(--text-muted); cursor:pointer; font-size:14px; }
+.ann-body{ margin-top:8px; font-size:12.5px; color:var(--text-secondary); line-height:1.6; }
+.ann-date{ margin-top:8px; font-size:11px; color:var(--text-muted); }
+
+/* supply & stock */
+.supply-card{ display:grid; grid-template-columns:1fr auto auto; gap:14px; align-items:center; padding:14px; border:1px solid var(--border); border-radius:12px; background:var(--surface-alt); margin-bottom:10px; }
+.supply-name{ font-weight:700; font-size:14px; } .supply-meta{ font-size:11px; color:var(--text-muted); margin-top:2px; }
+.supply-stock{ text-align:right; display:flex; flex-direction:column; line-height:1.2; }
+.supply-stock span{ font-size:10.5px; text-transform:uppercase; letter-spacing:.06em; color:var(--text-muted); }
+.supply-stock b{ font-size:22px; color:var(--primary); } .supply-stock.out b{ font-size:14px; color:var(--danger); }
+.supply-stock small{ font-size:11px; color:var(--text-secondary); }
+.supply-order{ display:flex; gap:6px; } .supply-order input{ width:84px; padding:9px 10px; border-radius:10px; border:1px solid var(--border); text-align:right; font-size:13px; }
+.supply-order .btn{ width:auto; padding:9px 16px; font-size:12.5px; }
+.btn.mini{ padding:4px 10px; font-size:11px; width:auto; }
+@media (max-width:640px){ .supply-card{ grid-template-columns:1fr auto; } .supply-order{ grid-column:1 / -1; } .supply-order input{ flex:1; width:auto; } .supply-order .btn{ flex:0 0 auto; } }

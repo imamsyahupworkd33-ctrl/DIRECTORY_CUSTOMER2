@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0A0A0C">
+<title>Dashboard Saya — Portal Monitoring Langganan</title>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="theme-dark.css">
+</head>
+<body>
+
+<div class="portal-shell">
+
+    <div class="lang-switch" style="margin-bottom:12px; justify-content:flex-end;">
+        <button type="button" data-lang="id">ID</button>
+        <button type="button" data-lang="en">EN</button>
+        <button type="button" data-lang="vi">VI</button>
+        <button type="button" data-lang="ar">AR</button>
+    </div>
+
+    <div class="portal-header">
+        <div class="greet">
+            <h1 id="greetTitle">Halo 👋</h1>
+            <span data-i18n="greet_sub">Ringkasan langganan harian milik Anda</span>
+        </div>
+        <div class="actions">
+            <button class="btn btn-outline" id="gantiPwToggleBtn">🔒 <span data-i18n="btn_change_password">Ganti Password</span></button>
+            <button class="btn btn-danger" id="logoutBtn" data-i18n="btn_logout">Keluar</button>
+        </div>
+    </div>
+
+    <div class="panel" id="gantiPwPanel" style="display:none;">
+        <div class="panel-title">🔒 <span data-i18n="change_password_title">Ganti Password</span></div>
+        <div class="form-msg" id="gantiPwMsg"></div>
+        <div class="field">
+            <label for="pwLama" data-i18n="label_old_password">Password Lama</label>
+            <div class="pw-wrap">
+                <input type="password" id="pwLama" autocomplete="current-password">
+                <button type="button" class="pw-toggle" onclick="togglePasswordField('pwLama', this)">👁️</button>
+            </div>
+        </div>
+        <div class="field">
+            <label for="pwBaru" data-i18n="label_new_password">Password Baru (minimal 6 karakter)</label>
+            <div class="pw-wrap">
+                <input type="password" id="pwBaru" autocomplete="new-password">
+                <button type="button" class="pw-toggle" onclick="togglePasswordField('pwBaru', this)">👁️</button>
+            </div>
+        </div>
+        <button class="btn btn-primary btn-block" id="simpanPwBtn" style="margin-top:6px;" data-i18n="btn_save_password">Simpan Password Baru</button>
+    </div>
+
+    <div id="annBox"></div>
+
+    <nav class="p-tabs" id="pTabs">
+        <button type="button" class="active" data-ptab="home">🏠 <span data-i18n="tab_home">Beranda</span></button>
+        <button type="button" data-ptab="supply">📦 <span data-i18n="tab_supply">Supply & Stock</span></button>
+        <button type="button" data-ptab="arsip">🗂️ <span data-i18n="tab_archive">Arsip Saya</span></button>
+    </nav>
+
+    <div class="p-tab" id="ptab-home">
+    <div class="summary-grid">
+        <div class="summary-card">
+            <div class="label" data-i18n="summary_active">Langganan Aktif</div>
+            <div class="value" id="sumJumlah">0</div>
+        </div>
+        <div class="summary-card">
+            <div class="label" data-i18n="summary_delivered">Total Hari Terkirim</div>
+            <div class="value" id="sumTerkirim">0</div>
+        </div>
+        <div class="summary-card">
+            <div class="label" data-i18n="summary_total">Total Hari Paket</div>
+            <div class="value" id="sumTotal">0</div>
+        </div>
+        <div class="summary-card clickable limit" id="cardLimit" data-i18n-title="hint_click_filter" title="Klik untuk filter">
+            <div class="label">✅ <span data-i18n="summary_limit_reached">Limit Tercapai</span></div>
+            <div class="value" id="sumLimit">0</div>
+        </div>
+        <div class="summary-card clickable tomorrow" id="cardTomorrow" data-i18n-title="hint_click_list" title="Klik untuk lihat daftar">
+            <div class="label">⏰ <span data-i18n="summary_limit_tomorrow">Akan Limit Besok</span></div>
+            <div class="value" id="sumTomorrow">0</div>
+        </div>
+    </div>
+
+    <div class="summary-grid kpi-extra">
+        <div class="summary-card"><div class="label" data-i18n="kpi_all_orders">Total Pesanan</div><div class="value" id="kpiAll">0</div></div>
+        <div class="summary-card"><div class="label" data-i18n="kpi_since">Mulai Memesan</div><div class="value small" id="kpiSince">-</div></div>
+        <div class="summary-card"><div class="label" data-i18n="kpi_archived">Pesanan Diarsipkan</div><div class="value" id="kpiArsip">0</div></div>
+        <div class="summary-card"><div class="label" data-i18n="kpi_supply_orders">Order Supply</div><div class="value" id="kpiSupply">0</div></div>
+    </div>
+
+    <div class="panel">
+        <div class="panel-title">📅 <span data-i18n="chart_monthly">Pesanan per Bulan</span></div>
+        <div class="chart-box"><canvas id="cuChartBulan"></canvas></div>
+    </div>
+    <div class="chart-grid">
+        <div class="panel"><div class="panel-title">🍩 <span data-i18n="chart_composition">Pesanan per Dashboard</span></div><div class="chart-box sm"><canvas id="cuChartDash"></canvas></div></div>
+        <div class="panel"><div class="panel-title">📊 <span data-i18n="chart_status">Status Langganan Aktif</span></div><div class="chart-box sm"><canvas id="cuChartStatus"></canvas></div></div>
+    </div>
+
+    <div class="panel">
+        <div class="panel-title">📋 <span data-i18n="detail_title">Detail Langganan Anda</span></div>
+
+        <div class="tag-search">
+            <input type="text" id="tagSearchInput" data-i18n-placeholder="search_placeholder" placeholder="Cari tagar langganan Anda..." autocomplete="off">
+            <button type="button" class="btn btn-ghost" id="tagSearchClear" data-i18n-title="search_clear" title="Hapus pencarian" style="display:none;">✕</button>
+        </div>
+        <div class="search-result" id="tagSearchResult" style="display:none;"></div>
+
+        <div class="filter-banner" id="filterBanner" style="display:none;">
+            <span data-i18n="filter_showing_limit">Menampilkan hanya langganan yang sudah limit</span>
+            <button type="button" class="btn btn-outline" id="filterResetBtn" data-i18n="filter_reset">Tampilkan Semua</button>
+        </div>
+
+        <div id="orderList"></div>
+
+        <div class="state-block" id="loadingState">
+            <div class="spinner"></div>
+            <div data-i18n="loading_orders">Memuat data langganan...</div>
+        </div>
+
+        <div class="state-block" id="emptyState" style="display:none;">
+            <div class="icon">🗒️</div>
+            <div><b id="emptyTitle" data-i18n="empty_orders_title">Belum ada data langganan aktif</b></div>
+            <div style="font-size:12.5px; margin-top:4px;" id="emptySub" data-i18n="empty_orders_sub">Hubungi admin jika Anda merasa ini keliru.</div>
+        </div>
+    </div>
+    </div><!-- /ptab-home -->
+
+    <div class="p-tab" id="ptab-supply" style="display:none;">
+        <div class="panel">
+            <div class="panel-title">📦 <span data-i18n="supply_title">Supply & Stock</span></div>
+            <div class="muted" data-i18n="supply_sub" style="font-size:12.5px;color:var(--text-secondary);margin-bottom:14px;"></div>
+            <div id="supplyList"></div>
+            <div class="state-block" id="supplyEmpty" style="display:none;"><div class="icon">📦</div><div data-i18n="supply_empty">Belum ada stok yang ditampilkan.</div></div>
+        </div>
+        <div class="panel">
+            <div class="panel-title">🧾 <span data-i18n="supply_my_orders">Pesanan Supply Saya</span></div>
+            <div class="table-scroll"><table class="mini-table" id="supplyOrdersTable"><thead><tr>
+                <th data-i18n="col_date">Tanggal</th><th data-i18n="col_item">Barang</th><th data-i18n="col_qty">Jumlah</th><th data-i18n="col_status">Status</th><th></th></tr></thead>
+                <tbody id="supplyOrdersBody"></tbody></table></div>
+            <div class="state-block" id="supplyOrdersEmpty" style="display:none;"><div data-i18n="supply_no_orders">Belum ada pesanan supply.</div></div>
+        </div>
+    </div>
+
+    <div class="p-tab" id="ptab-arsip" style="display:none;">
+        <div class="panel">
+            <div class="panel-title">🗂️ <span data-i18n="archive_title">Arsip Pesanan Saya</span></div>
+            <div data-i18n="archive_sub" style="font-size:12.5px;color:var(--text-secondary);margin-bottom:14px;"></div>
+            <div class="table-scroll"><table class="mini-table"><thead><tr>
+                <th>#</th><th data-i18n="col_tagar">Tagar</th><th data-i18n="col_dashboard">Dashboard</th><th data-i18n="col_progress">Progres</th><th data-i18n="archive_archived_on">Diarsipkan</th></tr></thead>
+                <tbody id="arsipBody"></tbody></table></div>
+            <div class="state-block" id="arsipEmpty" style="display:none;"><div class="icon">🗂️</div><div data-i18n="archive_empty">Belum ada arsip pesanan.</div></div>
+        </div>
+    </div>
+
+</div>
+
+<div class="modal-overlay" id="modalOverlay">
+    <div class="modal-box" id="modalBox"></div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script src="config.js"></script>
+<script src="js/i18n.js"></script>
+<script src="js/common.js"></script>
+<script src="js/dashboard.js"></script>
+<script src="js/portal-extra.js"></script>
+</body>
+</html>
